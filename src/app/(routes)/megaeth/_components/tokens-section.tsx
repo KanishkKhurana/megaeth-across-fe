@@ -20,7 +20,7 @@ export function TokensSection() {
       <SectionHeading title="Supported tokens on MegaETH" />
       <div className=" mx-auto mt-10 flex max-w-6xl flex-col gap-6 lg:flex-row">
         {tokenCards.map((token) => (
-            <a href="https://app.across.to/bridge-and-swap/megaeth" className="w-full">
+            <a key={token.label} href="https://app.across.to/bridge-and-swap/megaeth" className="w-full">
 
           <TokenCard key={token.label} {...token} />
             </a>
