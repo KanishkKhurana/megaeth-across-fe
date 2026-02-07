@@ -14,6 +14,7 @@ export { ArrowRightIcon } from "./arrow-right";
 export { ArrowUpRightIcon } from "./arrow-up-right";
 export { ArrowUpRightThickIcon } from "./arrow-up-right-thick";
 export { VerifiedCheckmarkIcon } from "./verified-checkmark";
+export { VerifiedCheckmarkCircleIcon } from "./verified-checkmark-circle";
 export { DiscourseIcon } from "./discourse";
 export { GitHubIcon } from "./github";
 export { LinkIcon } from "./link";
