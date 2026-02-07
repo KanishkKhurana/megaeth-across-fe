@@ -1,77 +1,148 @@
-import { ChevronDownIcon } from '@/app/_components/icons'
-import { sectionSpacing } from './styles'
-import { SectionHeading } from './section-heading'
+"use client";
 
-const steps = [
-  {
-    title: 'Select your source chain',
-    description:
-      'Across uses intent-based design to deliver near-instant transfers. Assets are filled in minutes, not hours—so users can move capital exactly when they need it.',
-  },
-  {
-    title: 'Choose MegaETH as the destination',
-    description:
-      'Pick MegaETH in the Across UI. Day-1 support for USDT, WBTC, and ETH means no waiting for liquidity to bootstrap.',
-  },
-  {
-    title: 'Bridge via Across',
-    description:
-      'Transfers are secured through optimistic verification plus decentralized relayers. No centralized shortcuts—just protocol-level guarantees.',
-  },
-  {
-    title: 'Funds arrive on MegaETH',
-    description:
-      'Receive assets directly on MegaETH, ready for DeFi, trading, or protocol liquidity at launch.',
-  },
-]
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { ArrowRightIcon } from "@/app/_components/icons";
+import bridge1 from "../_assets/bridge-guide-1.svg";
+import bridge2 from "../_assets/bridge-guide-2.svg";
+import bridge3 from "../_assets/bridge-guide-3.svg";
+import bridge4 from "../_assets/bridge-guide-4.svg";
+import SectionHeading from "./section-heading";
+import { BridgeNowLink } from "@/app/_components/bridge-now-link";
+import { primaryButtonClass, sectionSpacing } from "./styles";
 
-export function BridgeGuideSection() {
+export default function BridgeGuideSection() {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [itemsPerView, setItemsPerView] = useState(1);
+
+  useEffect(() => {
+    const computeItems = () => {
+      const width = window.innerWidth;
+      if (width >= 1024) return 3; // lg and up
+      if (width >= 768) return 2; // md
+      return 1; // mobile
+    };
+
+    const update = () => setItemsPerView(computeItems());
+    update();
+
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  const steps = [
+    {
+      number: "1.",
+      title: "Select your source chain",
+      description:
+        "Across uses an intent-based design to deliver near-instant transfers. Assets are filled in minutes, not hours—so users can move capital exactly when they need it.",
+      image: bridge1,
+    },
+    {
+      number: "2.",
+      title: "Choose MegaETH as the destination",
+      description:
+        "Select MegaETH as the destination chain here to be able to instantly bridge your funds using Across. Your assets will arrive quickly and securely.",
+      image: bridge2,
+    },
+    {
+      number: "3.",
+      title: "Bridge instantly via Across ",
+      description:
+        "Every transfer is secured through optimistic verification and decentralized relayers. No trusted intermediaries, just strong, protocol-level security guarantees.",
+      image: bridge3,
+    },
+    {
+      number: "4.",
+      title: "Fund your MegaETH wallet",
+      description:
+        "Your wallet on MegaETH will now have the bridged funds. You can also add more tokens to this wallet from other chains using Across.",
+      image: bridge4,
+    },
+  ];
+
+  const maxStep = Math.max(steps.length - itemsPerView, 0);
+
+  const nextStep = () => {
+    setCurrentStep((step) => Math.min(step + 1, maxStep));
+  };
+
+  const prevStep = () => {
+    setCurrentStep((step) => Math.max(step - 1, 0));
+  };
+
   return (
-    <section className={`relative ${sectionSpacing} py-16 sm:py-20`}>
-      <SectionHeading title="How to bridge to MegaETH" />
+    <div className="text-light-400 min-h-screen p-8">
+      <div className="mx-auto max-w-7xl">
+        <SectionHeading title="How to bridge to MegaETH" />
 
-      <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 pb-10 sm:flex-row sm:justify-center">
-        <SelectPill label="From" value="ETH · Base" />
-        <span className="hidden text-grey-500 sm:block">→</span>
-        <SelectPill label="To" value="ETH · MegaETH" />
-      </div>
+        {/* Carousel Container */}
+        <div className="relative mb-12 overflow-hidden">
+          <div
+            className="flex transition-transform duration-500 ease-in-out"
+            style={{ transform: `translateX(-${currentStep * (100 / itemsPerView)}%)` }}
+          >
+            {/* Step 1 - From */}
+            {steps.map((step) => (
+              <div
+                key={step.number}
+                className="relative flex-shrink-0 px-3"
+                style={{ width: `${100 / itemsPerView}%` }}
+              >
+                <div className="relative flex h-full  flex-col justify-between rounded-3xl bg-[#1B1B1E] p-8">
+                  <div className="flex basis-1/2 justify-center ">
+                    <Image src={step.image} alt={step.title} className="" priority />
+                  </div>
 
-      <div className="relative mx-auto max-w-6xl">
-        <div className="pointer-events-none absolute inset-x-6 top-[44px] hidden h-px bg-gradient-to-r from-white/5 via-white/20 to-white/5 lg:block" />
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {steps.map((step, index) => (
-            <div
-              key={step.title}
-              className="relative overflow-hidden rounded-xl border border-white/10 bg-[#1A1A1A] p-6 shadow-[0_20px_70px_rgba(0,0,0,0.35)]"
-            >
-              <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-full bg-aqua-100/10 text-base font-semibold text-aqua-100">
-                {index + 1}
+                  <div className="mt-8 basis-1/2">
+                    <span className="mb-4 block text-heading-1 font-thin text-aqua-100">
+                      {step.number}
+                    </span>
+                    <h3 className="mb-3 text-heading-3 font-semibold">{step.title}</h3>
+                    <p className="text-light-400/70 text-lg leading-relaxed">
+                      {step.description}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Arrow between boxes */}
+                <div
+                  className={`${step.number === "4." ? "" : "absolute -right-6 top-1/2 z-10 -translate-y-1/2"} `}
+                >
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl border-2 border-[#151518] bg-[#1B1B1E] shadow-lg">
+                    <span className="text-light-400/50 text-xl">→</span>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-lg font-semibold text-light-100">{step.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-grey-400">{step.description}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
-  )
-}
 
-function SelectPill({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex w-full max-w-xs items-center justify-between rounded-xl border border-white/10 bg-[#1A1A1A] px-4 py-3 shadow-[0_10px_35px_rgba(0,0,0,0.35)]">
-      <div className="flex items-center gap-3">
-        <div className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/10 text-sm font-semibold text-light-100">
-          {value.split(' ')[0]}
+        {/* Navigation arrows */}
+        <div className="mb-2 flex justify-end gap-4">
+          <button
+            onClick={prevStep}
+            disabled={currentStep === 0}
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1B1B1E] transition hover:scale-105 disabled:cursor-not-allowed disabled:opacity-30"
+          >
+            <ArrowRightIcon className="h-6 w-6 rotate-180 contrast-75" />
+          </button>
+          <button
+            onClick={nextStep}
+            disabled={currentStep === maxStep}
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1B1B1E] transition hover:scale-105 disabled:cursor-not-allowed disabled:opacity-30"
+          >
+            <ArrowRightIcon className="h-6 w-6 contrast-75" />
+          </button>
         </div>
-        <div className="text-left">
-          <p className="text-[11px] uppercase tracking-wide text-grey-400">{label}</p>
-          <p className="text-sm font-semibold text-light-100">{value}</p>
+
+        {/* CTA Button */}
+        <div className="flex justify-center">
+          <BridgeNowLink section="marketingHero" className={primaryButtonClass}>
+            Bridge to MegaETH
+          </BridgeNowLink>
         </div>
       </div>
-      <ChevronDownIcon className="h-4 w-4 text-grey-400" />
     </div>
-  )
+  );
 }
-
-export default BridgeGuideSection

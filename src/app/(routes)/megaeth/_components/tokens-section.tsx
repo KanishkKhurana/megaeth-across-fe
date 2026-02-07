@@ -1,69 +1,51 @@
-import { ArrowUpRightThickIcon } from '@/app/_components/icons'
-import { sectionSpacing } from './styles'
-import { SectionHeading } from './section-heading'
+import { EthIcon, WbtcIcon, UsdtIcon, ArrowRightIcon } from "@/app/_components/icons";
+import { sectionSpacing } from "./styles";
+import { SectionHeading } from "./section-heading";
 
 type TokenCardProps = {
-  symbol: string
-  label: string
-  accent: 'aqua' | 'light' | 'orange'
-}
+  label: string;
+  Icon: typeof EthIcon;
+  glow: string;
+};
 
 const tokenCards: TokenCardProps[] = [
-  { symbol: 'USDT', label: 'USDT on MegaETH', accent: 'aqua' },
-  { symbol: 'ETH', label: 'Native ETH', accent: 'light' },
-  { symbol: 'WBTC', label: 'Wrapped BTC', accent: 'orange' },
-]
+  { label: "USDT0", Icon: UsdtIcon, glow: "rgba(108,249,216,0.35)" },
+  { label: "ETH", Icon: EthIcon, glow: "rgba(240,255,251,0.25)" },
+  { label: "WBTC", Icon: WbtcIcon, glow: "rgba(227,109,58,0.25)" },
+];
 
 export function TokensSection() {
   return (
     <section className={`relative ${sectionSpacing} py-16 sm:py-20`}>
       <SectionHeading title="Supported tokens on MegaETH" />
-      <div className="mx-auto mt-10 grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className=" mx-auto mt-10 flex max-w-6xl flex-col gap-6 lg:flex-row">
         {tokenCards.map((token) => (
-          <TokenCard key={token.symbol} {...token} />
+            <a href="https://app.across.to/bridge-and-swap/megaeth" className="w-full">
+
+          <TokenCard key={token.label} {...token} />
+            </a>
         ))}
       </div>
     </section>
-  )
+  );
 }
 
-function TokenCard({ symbol, label, accent }: TokenCardProps) {
-  const accentColor =
-    accent === 'aqua' ? '#6CF9D8' : accent === 'orange' ? '#E36D3A' : '#F0FFFB'
-
-  const glowClassAqua =
-    'bg-[radial-gradient(circle_at_50%_32%,rgba(108,249,216,0.26),rgba(17,17,17,0.95)60%)]'
-  const glowClassOrange =
-    'bg-[radial-gradient(circle_at_50%_32%,rgba(227,109,58,0.28),rgba(17,17,17,0.95)62%)]'
-  const glowClassLight =
-    'bg-[radial-gradient(circle_at_50%_32%,rgba(240,255,251,0.2),rgba(17,17,17,0.95)60%)]'
-
-  const ringClass =
-    accent === 'aqua' ? glowClassAqua : accent === 'orange' ? glowClassOrange : glowClassLight
-
+function TokenCard({ label, Icon, glow }: TokenCardProps) {
   return (
-    <div className="relative overflow-hidden rounded-xl border border-white/10 bg-[#1A1A1A] p-8 text-center shadow-[0_28px_90px_rgba(0,0,0,0.45)]">
-      <div
-        className={`mx-auto flex h-44 w-44 items-center justify-center rounded-full border border-white/8 ${ringClass}`}
-      >
-        <div className="flex h-28 w-28 items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-3xl font-semibold tracking-tight text-light-100">
-          {symbol}
+      <div className=" group relative flex flex-1 flex-col items-center gap-12 rounded-2xl bg-[#1B1B1E] p-6 transition duration-200 hover:-translate-y-2  hover:border-aqua-100/50 border border-transparent">
+
+
+      <div className=" flex items-center justify-center rounded-full text-light-100">
+        <Icon className="h-20 w-20 border border-light-100" />
+      </div>
+      <div className="flex w-full flex-row items-center justify-between">
+        <div className="text-light-400 text-heading-3 font-normal">{label}</div>
+        <div className="text-light-400  contrast-50 transition border-light-400/10 rounded-full border p-2 text-heading-3 font-medium">
+          <ArrowRightIcon className=" text-light-100 h-8 w-8 -rotate-45" />
         </div>
       </div>
-      <div className="mt-8 flex items-center justify-center gap-2 text-lg font-semibold text-light-100">
-        {label}
-        <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5">
-          <ArrowUpRightThickIcon />
-        </span>
-      </div>
-      <div
-        className="absolute inset-0 -z-10 rounded-xl opacity-40 blur-2xl"
-        style={{
-          background: `radial-gradient(circle at 50% 30%, ${accentColor}33, transparent 60%)`,
-        }}
-      />
     </div>
-  )
+  );
 }
 
-export default TokensSection
+export default TokensSection;

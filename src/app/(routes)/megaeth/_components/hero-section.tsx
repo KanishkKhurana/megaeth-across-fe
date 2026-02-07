@@ -1,7 +1,11 @@
+import Image from 'next/image'
+
 import { AcrossIcon, VerifiedCheckmarkCircleIcon } from '@/app/_components/icons'
+import megaEthSrc from '@/app/_assets/logos/megaeth-light.svg'
+
 import { BridgeNowLink } from '@/app/_components/bridge-now-link'
 import { primaryButtonClass, sectionSpacing } from './styles'
-import heroBackground from '../_assets/hero-background.png'
+import heroBackground from '../_assets/hero.svg'
 
 const heroHighlights = [
   { label: '$35B+ volume bridged', Icon: VerifiedCheckmarkCircleIcon },
@@ -12,33 +16,24 @@ const heroHighlights = [
 export function HeroSection() {
   return (
     <section
-      className={`relative ${sectionSpacing} pb-16 pt-10 sm:pt-14 lg:pt-20`}
-      style={{
-        backgroundImage: `url(${heroBackground.src})`,
-        backgroundSize: 'contain',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
+      className={`relative overflow-clip ${sectionSpacing} pb-16 pt-10 sm:pt-14 bg-cover sm:bg-contain bg-center bg-no-repeat`}
+      style={{ backgroundImage: `url(${heroBackground.src})` }}
     >
+        <Image src={heroBackground} alt="" className="absolute -z-30  hidden md:flex  top-0 left-0" priority />
+
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-10 text-center">
-        <div className="flex w-full justify-end">
-          <BridgeNowLink section="marketingHero" className={primaryButtonClass}>
-            Bridge to MegaETH
-          </BridgeNowLink>
-        </div>
 
         <div className="flex flex-col items-center gap-8">
           <div className="flex items-center gap-4">
-            <div className="flex h-20 w-20 items-center justify-center rounded-full  ">
+            <div className="flex items-center justify-center rounded-full">
               <AcrossIcon className="h-12 w-12 text-white" />
             </div>
-            <div className="flex h-14 w-14 items-center justify-center rounded-full   text-lg font-semibold tracking-wide text-white">
-              M
-            </div>
+            <div className='h-8 w-0.5 rounded-xl  bg-[#e0f3ff42]' />
+            <Image src={megaEthSrc} alt="MegaETH logo" width={52} height={56} priority />
           </div>
 
           <div className="space-y-4">
-            <h1 className="font-medium leading-tight text-heading-1">
+            <h1 className="font-medium bg-clip-text text-transparent leading-tight text-heading-1 bg-gradient-to-r from-[#E0F3FF66] via-[#E0F3FF] to-[#E0F3FF66] inline-block">
               Bridge to MegaETH with Across
             </h1>
             <p className="mx-auto max-w-3xl text-base leading-relaxed text-grey-400 sm:text-heading-4">
@@ -50,7 +45,7 @@ export function HeroSection() {
             Bridge to MegaETH
           </BridgeNowLink>
 
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 pt-32">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-center gap-x-8 gap-y-3 pt-32">
             {heroHighlights.flatMap(({ label, Icon }, index) => [
               <div key={label} className="flex items-center gap-2">
                 <span className="flex shrink-0 items-center justify-center rounded-full ">
