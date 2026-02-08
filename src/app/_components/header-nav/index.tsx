@@ -102,7 +102,7 @@ export function HeaderNav() {
 
   if (isMegaETH) {
     return (
-      <header className="bg-black-800 flex items-center justify-between p-5 px-16">
+      <header className="bg-black-800 flex items-center justify-between p-5 sm:px-16">
         <div>
           <Link href="/">
           <AcrossIcon className={twMerge("h-8 w-8 transition")} />

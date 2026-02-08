@@ -127,7 +127,7 @@ export function Footer() {
 
   if (isMegaETH){
     return(
-      <footer className="border-t flex  justify-around text-light-400/40 tracking-wide-4 border-t-light-100/10 p-5 bg-[#151518]">
+      <footer className="border-t flex text-xs sm:text-md justify-around text-light-400/40 tracking-wide-4 border-t-light-100/10 p-5 bg-[#151518]">
         <div>
           <a href="http://across.to" target="_blank" rel="noopener noreferrer">
         © 2026 - ACROSS PROTOCOL
