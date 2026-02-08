@@ -10,9 +10,10 @@ import SectionHeading from "./section-heading";
 export function CreativeCta() {
   return (
     <section
-      className={`relative overflow-clip ${sectionSpacing} pb-10 pt-10 `}
+      className={`relative overflow-clip ${sectionSpacing} pb-10 pt-10 bg-cover sm:bg-none bg-center bg-no-repeat`}
+      style={{ backgroundImage: `url(${heroBackground.src})` }}
     >
-      <Image src={heroBackground} alt="" className="absolute -z-30" />
+      {/* <Image src={heroBackground} alt="" className="absolute -z-30" /> */}
       {/* <div className="absolute px bg-aqua-100 bottom-0 z-10 " /> */}
       <div className="z-10 mx-auto flex max-w-5xl flex-col items-center gap-6 text-center">
         <SectionHeading title="Start bridging to MegaETH today" />

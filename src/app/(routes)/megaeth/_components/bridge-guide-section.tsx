@@ -77,7 +77,7 @@ export default function BridgeGuideSection() {
         <SectionHeading title="How to bridge to MegaETH" />
 
         {/* Carousel Container */}
-        <div className="relative mb-12 overflow-hidden">
+        <div className="relative mb-5 overflow-hidden">
           <div
             className="flex transition-transform duration-500 ease-in-out"
             style={{ transform: `translateX(-${currentStep * (100 / itemsPerView)}%)` }}
@@ -119,7 +119,7 @@ export default function BridgeGuideSection() {
         </div>
 
         {/* Navigation arrows */}
-        <div className="mb-2 flex justify-end gap-4">
+        <div className="mb-5 flex justify-end gap-4">
           <button
             onClick={prevStep}
             disabled={currentStep === 0}
